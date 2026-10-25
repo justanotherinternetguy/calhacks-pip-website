@@ -16,7 +16,6 @@
 .narr--hero h1 { font-size: clamp(42px, 5.6vw, 76px); }
 .narr--hero .lead { max-width: 33em; }
 .narr--hero em { font-style: normal; color: var(--sky-deep); font-weight: 700; }
-.narr--hero .chip { align-self: flex-start; }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 10px; }
 .narr h2 { font-size: clamp(34px, 4.2vw, 58px); line-height: 1.04; }
 .narr__tag { display: flex; align-items: center; gap: 10px; font: 700 15px/1.2 var(--body); color: var(--ink-mid); }
@@ -203,7 +202,6 @@
     .narr--hero { gap: 10px; }
     .narr--hero h1 { font-size: clamp(32px, 9vw, 42px); }
     .narr--hero .lead { font-size: 15.5px; }
-    .narr--hero .chip { font-size: 13.5px; padding: 5px 12px; }
     .hero__actions { margin-top: 2px; gap: 10px; }
     .hero__actions .btn { height: 44px; padding: 0 16px; font-size: 15.5px; }
     .narr h2 { font-size: 30px; }
