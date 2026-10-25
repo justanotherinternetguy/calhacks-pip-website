@@ -1,6 +1,6 @@
 # pip website
 
-The landing page for pip (repo: `../safe`), the passive night-out safety app. It uses the design language of
+The landing page for pip (repo: `../safe`). It uses the design language of
 the HoloTouch site (`../website`): cream and ink, Fredoka / Figtree / DM Mono, and the same colour meanings as
 the app (`safe/apps/mobile/lib/theme.ts`).
 
