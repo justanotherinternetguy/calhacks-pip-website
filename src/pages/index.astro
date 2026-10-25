@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Story from '../components/Story.astro';
+import Why from '../components/Why.astro';
+import Signals from '../components/Signals.astro';
+import Incidents from '../components/Incidents.astro';
+import Rule from '../components/Rule.astro';
+import Escalation from '../components/Escalation.astro';
+import CheckIn from '../components/CheckIn.astro';
+import Privacy from '../components/Privacy.astro';
+import Monitor from '../components/Monitor.astro';
+import Under from '../components/Under.astro';
+import Start from '../components/Start.astro';
+import Footer from '../components/Footer.astro';
+---
+<Base
+  title="pip · the friend who notices"
+  description="pip is a passive night-out safety app. It notices when you can't ask for help, asks you first, and only then tells your friends. Your location stays end-to-end encrypted until it matters."
+>
+  <Nav />
+  <main>
+    <Story />
+    <Why />
+    <Signals />
+    <Incidents />
+    <Rule />
+    <Escalation />
+    <CheckIn />
+    <Privacy />
+    <Monitor />
+    <Under />
+    <Start />
+  </main>
+  <Footer />
+  <script src="../scripts/main.ts"></script>
+</Base>

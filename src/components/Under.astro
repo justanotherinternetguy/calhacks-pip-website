@@ -1,0 +1,65 @@
+---
+const stats = [
+  { n: 92, label: 'Rust tests', sub: 'engine stories, recorded walks, crypto' },
+  { n: 48, label: 'database checks', sub: 'pgTAP, row-level security' },
+  { n: 25, label: 'edge-function tests', sub: 'Deno' },
+  { n: 22, label: 'TypeScript tests', sub: 'monitor, recorder, OK log' },
+];
+const layers = [
+  { c: 'var(--sky)', k: 'On the phone', title: 'Kotlin sensing service', body: 'A foreground service that survives the screen going off, the charger coming out and a reboot. Motion at 10 or 50 Hz, activity, screen and unlock events, battery, and the mic in listening windows only.' },
+  { c: 'var(--butter)', k: 'On the phone', title: 'Rust safety-core', body: 'Pure Rust with no I/O: signals, personal baselines, incident rules, the on-device log and the escalation state machine. Bound to Kotlin with uniffi.' },
+  { c: 'var(--lilac)', k: 'On the phone', title: 'Rust safety-crypto', body: 'Device identity (X25519, Ed25519), Shamir over GF(256), HPKE sealing, XChaCha20-Poly1305 location blobs and proximity tokens. Also compiled to WebAssembly for the monitor.' },
+  { c: 'var(--coral)', k: 'In the cloud', title: 'Supabase', body: 'Postgres with row-level security on every table, Realtime, and Deno edge functions: push, watchdog, proximity, unlock, purge and config. pg_cron runs the watchdog every minute.' },
+  { c: 'var(--mint)', k: 'For friends', title: 'Expo app and web monitor', body: 'One Expo / React Native code base: the Android UI, and the friends’ console in the browser. No detection logic lives in JavaScript.' },
+  { c: 'var(--cream-soft)', k: 'Tooling', title: 'sim and the trace gate', body: 'A Rust CLI replays recorded and synthetic traces through the real engine. CI fails a change that adds false alarms or slows detection.' },
+];
+---
+<section class="band" id="how">
+  <div class="wrap">
+    <div class="band__head" data-reveal>
+      <p class="eyebrow" style="--eyebrow: var(--sky)">Under the hood</p>
+      <h2 data-words>Detection on the phone. Ciphertext on the server.</h2>
+      <p class="lead">All detection runs in Rust and Kotlin on the phone, never in JavaScript, so it keeps running when the app’s UI is asleep. The server only ever receives ciphertext, hashed tokens and a coarse status.</p>
+    </div>
+
+    <div class="arch" data-reveal>
+      <div class="arch__box arch__box--phone">
+        <p class="arch__k">Sam’s phone</p>
+        <ul><li>Kotlin service · 50 Hz</li><li>Rust engine</li><li>Rust crypto</li></ul>
+      </div>
+      <div class="arch__pipe" aria-hidden="true">
+        <span class="pkt" style="--d: 0s">ciphertext</span>
+        <span class="pkt" style="--d: -2.4s">tokens</span>
+        <span class="pkt" style="--d: -4.8s">heartbeat</span>
+      </div>
+      <div class="arch__box arch__box--cloud">
+        <p class="arch__k">Supabase</p>
+        <ul><li>Postgres + RLS</li><li>Realtime</li><li>Edge functions</li></ul>
+        <p class="arch__no">can’t decrypt</p>
+      </div>
+      <div class="arch__pipe arch__pipe--b" aria-hidden="true">
+        <span class="pkt" style="--d: -1.2s">sealed keys</span>
+        <span class="pkt" style="--d: -4.8s">status</span>
+      </div>
+      <div class="arch__box arch__box--friends">
+        <p class="arch__k">Friends</p>
+        <ul><li>Android app</li><li>Web monitor</li><li>Crypto in WASM</li></ul>
+      </div>
+    </div>
+
+    <div class="layers" data-reveal="children">
+      {layers.map((l, i) => (
+        <article class="card layer" style={`--c: ${l.c}`}>
+          <span class="layer__n">{i + 1}</span>
+          <p class="layer__k">{l.k}</p>
+          <h3>{l.title}</h3>
+          <p>{l.body}</p>
+        </article>
+      ))}
+    </div>
+
+    <dl class="stats" data-stats data-reveal="children">
+      {stats.map((s) => <div><dt data-count-to={s.n}>{s.n}</dt><dd><b>{s.label}</b><span>{s.sub}</span></dd></div>)}
+    </dl>
+  </div>
+</section>

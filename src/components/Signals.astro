@@ -1,0 +1,86 @@
+---
+// A live strip like the friends' monitor: synthesized motion for a few situations, run through the
+// same thresholds the engine uses, so you can see what opens and what doesn't.
+const scenes = [
+  { id: 'walk', label: 'Normal walk' },
+  { id: 'unsteady', label: 'Unsteady walk' },
+  { id: 'fall', label: 'Hard fall' },
+  { id: 'grab', label: 'Phone grab' },
+  { id: 'drop', label: 'Dropped phone' },
+  { id: 'dance', label: 'Dancing' },
+];
+const metrics = [
+  { id: 'cadence', label: 'Cadence', unit: 'steps/min' },
+  { id: 'regularity', label: 'Regularity', unit: '' },
+  { id: 'sway', label: 'Sway', unit: 'm/s²' },
+  { id: 'wobble', label: 'Wobble', unit: 'rad/s' },
+];
+const inputs = [
+  ['Two sensor speeds', '10 samples a second by day. 50 a second plus the gyroscope at night, and for 30 min after any incident.'],
+  ['Your own normal', 'Each walking measure is compared with your range for where the phone is carried: pocket, hand or bag. It is learned on ordinary walks and trusted after 7 different days.'],
+  ['Microphone in short windows', 'Off by default. After a fall, a grab, a missed check-in or unsteady walking it listens for 10 min. YAMNet on the phone turns each second into scream, shout and snoring scores. Audio is never stored or uploaded.'],
+  ['Everything else', 'Activity (still, walking, running, vehicle), speed, screen and unlock events, time since you last touched the phone, battery, distance to home, and whether you are with your friends.'],
+];
+---
+<section class="band" id="signals">
+  <div class="wrap">
+    <div class="band__head" data-reveal>
+      <p class="eyebrow" style="--eyebrow: var(--butter)">Detection</p>
+      <h2 data-words>It knows your walk. It notices when that changes.</h2>
+      <p class="lead">A foreground service samples motion all night, with the screen off and the phone in your pocket. A Rust engine on the phone turns it into gait, impact, grab and stillness signals and compares them with your own normal range. Pick a situation to see what opens.</p>
+    </div>
+
+    <div class="sig" data-signals data-reveal>
+      <div class="sig__side">
+        <div class="tabs" role="group" aria-label="Situation">
+          {scenes.map((s, i) => <button type="button" data-scene={s.id} aria-pressed={i === 0 ? 'true' : 'false'}>{s.label}</button>)}
+        </div>
+        <div class="sig__story">
+          <h3 data-sig-title>Walking home</h3>
+          <p data-sig-text>Every measure sits inside your normal range. Nothing opens, and nobody is told anything.</p>
+        </div>
+        <p class="fine">The motion here is synthesized in your browser. The thresholds are the engine’s own, sped up so each situation fits in a few seconds.</p>
+      </div>
+
+      <div class="console">
+        <div class="console__bar">
+          <span class="console__who"><span class="dot" style="background: var(--sky)"></span>Sam’s phone · live</span>
+          <span class="console__rate" data-sig-rate>50 Hz · gyro on</span>
+        </div>
+        <div class="console__plot">
+          <canvas data-sig-canvas aria-label="Live motion plot" role="img"></canvas>
+          <span class="console__axis console__axis--3g">3 g</span>
+          <span class="console__axis console__axis--1g">1 g</span>
+          <div class="console__legend"><span><i style="background: var(--sky)"></i>|a| motion</span><span><i style="background: var(--lilac)"></i>rotation</span><span><i class="is-band"></i>your normal</span></div>
+        </div>
+        <div class="tiles">
+          {metrics.map((m) => (
+            <div class="tile" data-metric={m.id}>
+              <p class="tile__k">{m.label}</p>
+              <p class="tile__v"><span data-v>0</span> <small>{m.unit}</small></p>
+              <div class="tile__band"><i class="tile__ok"></i><i class="tile__needle" data-needle></i></div>
+            </div>
+          ))}
+        </div>
+        <div class="console__foot">
+          <div class="mic" data-mic>
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11 a7 7 0 0 0 14 0 M12 18 V21"/></svg>
+            <span data-mic-t>Mic off</span>
+            <span class="mic__bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+          </div>
+          <ul class="feed" data-feed aria-live="polite"></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="inputs" data-reveal="children">
+      {inputs.map(([t, b], i) => (
+        <div class="input">
+          <span class="input__n">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{t}</h3>
+          <p>{b}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

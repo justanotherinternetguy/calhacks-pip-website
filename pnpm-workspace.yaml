@@ -1,0 +1,13 @@
+minimumReleaseAgeExclude:
+  - '@astrojs/internal-helpers@0.12.0'
+  - '@astrojs/markdown-satteri@0.4.3'
+  - astro@7.3.6
+
+
+# Astro 7 prerenders through a bundle that imports "cookie" bare, so it must resolve from the root.
+publicHoistPattern:
+  - cookie
+
+# esbuild may run its install script (it checks its platform binary).
+allowBuilds:
+  esbuild: true

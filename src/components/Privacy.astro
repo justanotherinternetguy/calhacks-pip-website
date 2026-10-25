@@ -1,0 +1,117 @@
+---
+const friends = [
+  { name: 'Ava', c: 'var(--mint)' },
+  { name: 'Jo', c: 'var(--butter)' },
+  { name: 'Kai', c: 'var(--lilac)' },
+  { name: 'Mo', c: 'var(--sky)' },
+];
+const leaves = [
+  ['Encrypted location', 'Nobody until an unlock, then your group'],
+  ['Night mode, battery, alert level', 'Your group and the server'],
+  ['Together or separated', 'Your group. The server sees only yes or no'],
+  ['That an incident happened, in one sentence', 'Your group and the server'],
+  ['Live motion stream (never location)', 'You and your group, on a private channel'],
+  ['Every unlock', 'You and your whole group'],
+];
+const stays = ['Home places', 'Walking baselines', 'Typing baselines', 'Private keys', 'Audio'];
+---
+<section class="band" id="privacy">
+  <div class="wrap">
+    <div class="band__head band__head--center" data-reveal>
+      <p class="eyebrow" style="--eyebrow: var(--butter)">Privacy</p>
+      <h2 data-words>Nobody can read your location. Not one friend, and not us.</h2>
+      <p class="lead">Every day your phone makes a fresh key and splits it among your friends. Any one share is useless. It takes several friends together, and every time they combine shares, everyone sees.</p>
+    </div>
+
+    <div class="split" data-shamir data-reveal>
+      <div class="split__controls">
+        <div>
+          <p class="split__k">Friends it takes to unlock</p>
+          <div class="tabs" role="group" aria-label="Friends needed" data-k-tabs>
+            <button type="button" data-k="2" aria-pressed="true">2 of 4</button>
+            <button type="button" data-k="3" aria-pressed="false">3 of 4</button>
+            <button type="button" data-k="4" aria-pressed="false">4 of 4</button>
+          </div>
+        </div>
+        <button type="button" class="btn btn--small" data-newkey>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12 a8 8 0 0 1 14 -5 L20 9 M20 4 V9 H15 M20 12 a8 8 0 0 1 -14 5 L4 15 M4 20 V15 H9"/></svg>
+          New day
+        </button>
+      </div>
+
+      <div class="split__key">
+        <span class="split__label">Sam’s day key</span>
+        <code class="hexline" data-daykey></code>
+      </div>
+
+      <svg class="split__wires" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M200 0 C200 30, 50 30, 50 60" /><path d="M200 0 C200 30, 150 30, 150 60" /><path d="M200 0 C200 30, 250 30, 250 60" /><path d="M200 0 C200 30, 350 30, 350 60" />
+      </svg>
+
+      <ul class="split__friends">
+        {friends.map((f, i) => (
+          <li class="share" data-share={i} style={`--c: ${f.c}`}>
+            <span class="share__av">{f.name[0]}</span>
+            <p class="share__name">{f.name}</p>
+            <p class="share__k">share {i + 1} · sealed to {f.name}</p>
+            <code class="share__hex" data-share-hex></code>
+            <button type="button" class="share__btn" data-approve aria-pressed="false">Approve</button>
+          </li>
+        ))}
+      </ul>
+
+      <div class="split__out" data-out data-state="none">
+        <div class="split__out-row">
+          <span class="split__label" data-out-label>Combined shares</span>
+          <code class="hexline hexline--out" data-rebuilt></code>
+        </div>
+        <p class="split__status" data-status>Approve shares as Sam’s friends to try to rebuild the key.</p>
+        <p class="split__audit" data-audit hidden><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L20 6 V12 C20 16.5 16.5 20 12 21 C7.5 20 4 16.5 4 12 V6 Z M9 12 L11 14 L15 10"/></svg><span data-audit-t></span></p>
+      </div>
+      <p class="fine split__fine">This is real Shamir secret sharing over GF(256), running in your browser. With fewer shares than it takes, the combined bytes are noise. Fallback unlock works only while Sam’s phone is offline or dying, and only in groups of three or more.</p>
+    </div>
+
+    <div class="pcards" data-reveal="children">
+      <article class="card pcard">
+        <div class="pcard__art pcard__art--hours" aria-hidden="true">
+          {Array.from({ length: 12 }, (_, i) => <i class={i === 7 || i === 8 ? 'is-on' : ''}></i>)}
+        </div>
+        <h3>Hour keys, two at a time</h3>
+        <p>Each hour’s key comes from the day key with HKDF. An alert releases the current hour and the next, so friends can read two hours at most, never the whole day. Keys are wiped when the day ends.</p>
+      </article>
+      <article class="card pcard">
+        <div class="pcard__art pcard__art--blob" aria-hidden="true"><code data-blob></code></div>
+        <h3>Ciphertext on the server</h3>
+        <p>Each location fix is sealed with XChaCha20-Poly1305 under the hour key. The server keeps only the last 6 hours of it, and has no way to decrypt it. A database test checks that no decrypt path exists.</p>
+      </article>
+      <article class="card pcard">
+        <div class="pcard__art pcard__art--cells" data-cells aria-hidden="true">
+          {Array.from({ length: 40 }, () => <i></i>)}
+          <b class="cells__state" data-cells-state>together</b>
+        </div>
+        <h3>Together or separated</h3>
+        <p>Every 2 minutes each phone uploads keyed hashes of its map cell and the 8 around it, about 150 m. The server compares hashes and learns only “together” or “separated”. It never sees a coordinate.</p>
+      </article>
+    </div>
+
+    <div class="leaves" data-reveal>
+      <div class="leaves__table">
+        <h3>What leaves the phone, and who can read it</h3>
+        <dl>
+          {leaves.map(([what, who]) => <div><dt>{what}</dt><dd>{who}</dd></div>)}
+        </dl>
+      </div>
+      <div class="leaves__stays">
+        <h3>Never leaves the phone</h3>
+        <ul class="stays">{stays.map((s) => <li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11 V8 a4 4 0 0 1 8 0 V11"/></svg>{s}</li>)}</ul>
+        <div class="qr">
+          <svg class="qr__code" viewBox="0 0 21 21" aria-hidden="true" data-qr></svg>
+          <div>
+            <h3>Friends are added in person</h3>
+            <p>You scan each other’s QR code and check that the fingerprints match on both screens. That way the server can’t swap in a key of its own. Both sides have to accept.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

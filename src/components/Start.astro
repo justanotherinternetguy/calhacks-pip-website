@@ -1,0 +1,53 @@
+---
+const demo = [
+  ['checkin-dismiss', 'A check-in appears. Type the three words and it’s dismissed. The friend sees nothing.'],
+  ['heads-up', 'Ignore the check-in. The friend gets “might not be okay” with no location.'],
+  ['unlock-map', 'Still down 2 min later, and the friend’s map appears. The database holds only ciphertext.'],
+  ['snatch', 'An immediate “don’t chase” alert with the snatch-moment pin. Only a biometric dismisses it.'],
+  ['manual-sos', 'Hold the SOS button. Friends are told and the location unlocks at once.'],
+];
+---
+<section class="band" id="start">
+  <div class="wrap start">
+    <div class="start__text" data-reveal>
+      <p class="eyebrow" style="--eyebrow: var(--mint)">Try the demo</p>
+      <h2 data-words>Run a night out on your desk</h2>
+      <p class="lead">One phone or emulator plays Sam. A browser plays a friend. Recorded traces stand in for the night, so you don’t have to fall over.</p>
+      <ol class="demo">
+        {demo.map(([trace, text]) => (
+          <li><code>{trace}</code><span>{text}</span></li>
+        ))}
+      </ol>
+      <p class="fine">Settings → <b>Demo sensitivity</b> swaps in easier thresholds for trying it out in a room: shorter timers, unsteady walking after 12 s, a grab after 2 s of jogging, and a 30 s check-in.</p>
+    </div>
+    <div class="start__side" data-reveal>
+      <div class="term">
+        <div class="term__bar">
+          <span class="term__lights"><i></i><i></i><i></i></span>
+          <span>Terminal</span>
+          <button type="button" class="term__copy" data-copy>Copy</button>
+        </div>
+        <pre data-commands><span class="term__c"># the engine, the crypto and the trace gate</span>
+<span class="term__p">$</span> cargo test --manifest-path core/Cargo.toml
+<span class="term__p">$</span> cargo run --manifest-path core/Cargo.toml -p sim -- batch core/traces
+
+<span class="term__c"># the backend</span>
+<span class="term__p">$</span> cd supabase && supabase start && supabase db reset
+<span class="term__p">$</span> supabase functions serve
+
+<span class="term__c"># a friend in the browser, Sam on Android</span>
+<span class="term__p">$</span> pnpm --filter mobile web      <span class="term__c"># ?mock=friend</span>
+<span class="term__p">$</span> core/build-mobile.sh && pnpm --filter mobile android
+<span class="term__p">$</span> adb shell am start -a android.intent.action.VIEW \
+    -d 'safe://debug/inject?trace=heads-up'</pre>
+      </div>
+      <div class="notice">
+        <span class="notice__icon" aria-hidden="true">!</span>
+        <div>
+          <h3>Not an emergency service</h3>
+          <p>Detection is heuristic. It can miss events and raise false alarms. If you are in danger, call your local emergency number. pip is for adults (18+).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

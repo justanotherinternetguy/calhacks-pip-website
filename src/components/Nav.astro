@@ -1,0 +1,23 @@
+---
+import Logo from './Logo.astro';
+const links = [
+  ['#signals', 'Detection'],
+  ['#escalation', 'Alerts'],
+  ['#privacy', 'Privacy'],
+  ['#monitor', 'Friends'],
+  ['#how', 'Under the hood'],
+];
+---
+<header class="nav" data-nav>
+  <div class="wrap nav__row">
+    <a class="brand" href="#top" aria-label="pip, back to the top"><Logo />pip</a>
+    <nav class="nav__links" aria-label="Sections">
+      {links.map(([href, label]) => <a href={href} data-navlink>{label}</a>)}
+    </nav>
+    <a class="btn btn--small btn--main" href="#start">
+      Try the demo
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12 L19 12 M13 6 L19 12 L13 18"/></svg>
+    </a>
+  </div>
+  <div class="nav__progress" data-progress></div>
+</header>

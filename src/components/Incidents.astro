@@ -1,0 +1,51 @@
+---
+import { INCIDENTS, FAMILY_LABEL } from '../data/incidents';
+const tiers = [
+  { id: 'all', label: 'All', mark: '' },
+  { id: 'danger', label: 'Danger', mark: 'danger' },
+  { id: 'watch', label: 'Watch', mark: 'watch' },
+  { id: 'context', label: 'Context', mark: 'context' },
+];
+const count = (t: string) => (t === 'all' ? INCIDENTS.length : INCIDENTS.filter((i) => i.tier === t).length);
+---
+<section class="band band--sunk" id="incidents">
+  <div class="wrap">
+    <div class="inc-head" data-reveal>
+      <div class="band__head">
+        <p class="eyebrow" style="--eyebrow: var(--lilac)">Incidents, not a score</p>
+        <h2 data-words>Clear rules you can read, not a black box</h2>
+        <p class="lead">There is no machine-learned danger score. Each signal opens and closes a named <b>incident</b> with a rule for when it clears. That way the phone can always tell you, and your friends, why it asked.</p>
+      </div>
+      <dl class="tiers">
+        <div><dt><i class="mark mark--context"></i>Context</dt><dd>Logged only.</dd></div>
+        <div><dt><i class="mark mark--watch"></i>Watch</dt><dd>Turns on full sensing and counts toward a check-in.</dd></div>
+        <div><dt><i class="mark mark--danger"></i>Danger</dt><dd>Asks “You okay?” on its own.</dd></div>
+      </dl>
+    </div>
+
+    <div class="inc-filter" data-reveal>
+      <div class="tabs" role="group" aria-label="Filter by tier" data-inc-tabs>
+        {tiers.map((t, i) => (
+          <button type="button" data-tier={t.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+            {t.mark && <i class={`mark mark--${t.mark}`}></i>}{t.label}<span class="tabs__n">{count(t.id)}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <ul class="incs" data-incs>
+      {INCIDENTS.map((inc) => (
+        <li class={`incard incard--${inc.tier}`} data-tier={inc.tier}>
+          <div class="incard__top">
+            <span class="incard__tier"><i class={`mark mark--${inc.tier}`}></i>{inc.tier}</span>
+            <span class="incard__fam">{FAMILY_LABEL[inc.family]}</span>
+          </div>
+          <h3>{inc.name}</h3>
+          <p>{inc.opens}</p>
+          <p class="incard__clears"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 L9.5 17 L19 7.5"/></svg>Clears: {inc.clears}</p>
+        </li>
+      ))}
+    </ul>
+    <p class="fine inc-note" data-reveal>Entries in the on-device log expire after 8 hours. The rules ship as a TOML file served by the backend and merged over the copy built into the app, so a bad file can’t break the engine.</p>
+  </div>
+</section>

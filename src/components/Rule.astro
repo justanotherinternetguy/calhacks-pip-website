@@ -1,0 +1,59 @@
+---
+// When the phone asks: a danger incident on its own, a fall-like watch incident that has stayed open
+// 5 s, or watch incidents from two different families together. Toggle evidence to try it.
+const families = [
+  { id: 'fall', label: 'Fall', items: [ { n: 'Possible fall', t: 'watch', alone: true }, { n: 'Hard impact', t: 'watch', alone: true }, { n: 'Down after fall', t: 'danger' } ] },
+  { id: 'gait', label: 'Walking', items: [ { n: 'Unsteady walking', t: 'watch' }, { n: 'Slowed walking', t: 'watch' }, { n: 'Repeated stumbles', t: 'watch' } ] },
+  { id: 'phone', label: 'Phone', items: [ { n: 'Phone left behind', t: 'watch' }, { n: 'Phone drop', t: 'watch' }, { n: 'Grab', t: 'danger' } ] },
+  { id: 'location', label: 'Location', items: [ { n: 'Separated', t: 'watch' }, { n: 'Stopped on the way home', t: 'watch' } ] },
+  { id: 'audio', label: 'Sound', items: [ { n: 'Scream or shout', t: 'watch', alone: true }, { n: 'Snoring while down', t: 'danger' } ] },
+];
+---
+<section class="band" id="rule">
+  <div class="wrap rule">
+    <div class="rule__text" data-reveal>
+      <p class="eyebrow" style="--eyebrow: var(--lilac)">When it asks</p>
+      <h2 data-words>One clue is a maybe. Two kinds of clue is a question.</h2>
+      <p class="lead">A single odd signal is usually nothing. pip asks “You okay?” only when the evidence adds up.</p>
+      <ol class="rules">
+        <li><span class="rules__n">1</span><span>A <b>danger</b> incident is open, such as being down after a fall.</span></li>
+        <li><span class="rules__n">2</span><span>A possible fall, hard impact or scream has stayed open for <b>5 s</b>. The wait lets the engine check whether it was only a dropped phone.</span></li>
+        <li><span class="rules__n">3</span><span>Watch incidents from <b>two different families</b> are open together. Two from the same family never ask.</span></li>
+      </ol>
+      <p class="fine">Answering covers everything that’s open. After that, only a new incident can ask again, after a 5-minute pause.</p>
+    </div>
+
+    <div class="board" data-rule data-reveal>
+      <div class="board__top">
+        <p class="board__k">Open incidents. Tap to add evidence.</p>
+        <button type="button" class="board__clear" data-rule-clear>Clear</button>
+      </div>
+      <div class="fams">
+        {families.map((f) => (
+          <div class="fam" data-fam={f.id}>
+            <p class="fam__name"><i class="fam__pip"></i>{f.label}</p>
+            <div class="fam__items">
+              {f.items.map((it) => (
+                <button type="button" class={`ev-chip ev-chip--${it.t}`} data-fam={f.id} data-tier={it.t} data-alone={it.alone ? '1' : undefined} aria-pressed="false">
+                  <i class={`mark mark--${it.t}`}></i>{it.n}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="verdict" data-verdict data-state="idle">
+        <div class="verdict__face" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" /><path class="vf-eyes" d="M17 20 v2 M31 20 v2" /><path class="vf-mouth" d="M16 30 Q24 34 32 30" /></svg>
+        </div>
+        <div>
+          <p class="verdict__t" data-verdict-t>Nothing open</p>
+          <p class="verdict__s" data-verdict-s>The phone samples at the low rate and logs nothing.</p>
+        </div>
+        <div class="verdict__fams" aria-hidden="true">
+          {families.map((f) => <i data-pip={f.id}></i>)}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

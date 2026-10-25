@@ -1,0 +1,79 @@
+---
+const steps = [
+  { at: '0:00', min: 0, c: 'var(--lilac)', title: 'Check-in', body: 'A full-screen “You okay?” on the lock screen, with what was detected and a countdown. Nobody else is told.' },
+  { at: '2:00', min: 2, c: 'var(--butter)', title: 'Heads-up', body: 'No answer. Friends get “might not be okay” and a one-line summary. No location.' },
+  { at: '4:00', min: 4, c: 'var(--coral)', title: 'Location unlock', body: 'Your phone seals the current and next hour’s location keys to each friend and uploads a fresh fix.' },
+  { at: '10:00', min: 10, c: 'var(--sky)', title: 'Call option', body: 'Friends get one tap to campus safety or 911, with text ready to read out.' },
+];
+const acts = ['Ring the phone loudly', 'Call', 'Alert the whole group', 'Ask for the location now', 'I’m going', 'Found and safe', 'Campus safety or 911'];
+---
+<section class="band band--ink band--round" id="escalation">
+  <div class="wrap">
+    <div class="band__head" data-reveal>
+      <p class="eyebrow" style="--eyebrow: var(--coral)">Alerts</p>
+      <h2 data-words>Four steps, and you can stop it at any one of them</h2>
+      <p class="lead">Each step waits for the one before it, and the evidence must still hold. If you get up and walk, or rejoin your friends, the episode resolves by itself and friends are never told.</p>
+    </div>
+
+    <div class="esc" data-esc>
+      <div class="esc__clock" aria-hidden="true"><span data-esc-clock>0:00</span><small>since the check-in</small></div>
+      <div class="esc__rail" aria-hidden="true"><i class="esc__fill" data-esc-fill></i></div>
+      <ol class="esc__steps">
+        {steps.map((s) => (
+          <li class="esc__step" data-esc-step data-min={s.min} style={`--c: ${s.c}; --at: ${s.min / 10}`}>
+            <span class="esc__node"></span>
+            <p class="esc__at">{s.at}</p>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <div class="answer" data-reveal="children">
+      <div class="answer__card">
+        <h3>Answering “I’m OK”</h3>
+        <p>First you prove it’s you: face unlock where the phone allows it, fingerprint, or PIN. A thief can’t pass this step. Then you type three random words while the phone checks your typing rhythm. If it’s far off your normal rhythm, friends hear “answered, but may be impaired”.</p>
+      </div>
+      <div class="answer__card">
+        <h3>“I need help”</h3>
+        <p>Anyone holding the phone can tap it. It counts as consent and unlocks your location at once.</p>
+      </div>
+    </div>
+
+    <h3 class="ways__h" data-reveal>Other ways in</h3>
+    <div class="ways" data-reveal="children">
+      <article class="way">
+        <span class="way__icon" style="background: var(--coral)"><svg class="icon" viewBox="0 0 24 24"><path d="M7 4 h10 a2 2 0 0 1 2 2 v12 a2 2 0 0 1 -2 2 h-10 a2 2 0 0 1 -2 -2 v-12 a2 2 0 0 1 2 -2 z M11 17 h2 M2 9 L5 11 M22 9 L19 11"/></svg></span>
+        <h3>Grab or snatch</h3>
+        <p>Skips the check-in. Friends are told at once, with the snatch-moment location and a warning not to chase. Only your biometric dismisses it.</p>
+      </article>
+      <article class="way way--sos" data-sos>
+        <button type="button" class="sos" data-sos-btn aria-describedby="sos-help">
+          <svg class="sos__ring" viewBox="0 0 120 120" aria-hidden="true"><circle class="sos__track" cx="60" cy="60" r="52" /><circle class="sos__arc" data-sos-arc cx="60" cy="60" r="52" pathLength="100" /></svg>
+          <span class="sos__label" data-sos-label>Hold for help</span>
+        </button>
+        <div class="sos__text">
+          <h3>Manual SOS</h3>
+          <p id="sos-help" data-sos-text>Hold the button in the app, the Quick Settings tile or the home-screen widget. Try holding this one.</p>
+          <button type="button" class="btn btn--tiny" data-sos-cancel hidden>
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11 a4 4 0 0 1 8 0 v2 a8 8 0 0 1 -2 5 M12 11 v3 a6 6 0 0 1 -3 5 M5 9 a7.5 7.5 0 0 1 14 0 M5 14 a7 7 0 0 0 1 3"/></svg>
+            Cancel with fingerprint
+          </button>
+        </div>
+      </article>
+      <article class="way">
+        <span class="way__icon" style="background: var(--butter)"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="8" width="16" height="9" rx="2.5"/><path d="M21 11 v3 M6 11 v3"/></svg></span>
+        <h3>Phone offline or dying</h3>
+        <p>The server notices 10 min without a heartbeat, or a battery at 3 %, and tells friends. A dying phone uploads one last encrypted location first.</p>
+      </article>
+    </div>
+
+    <div class="acts" data-reveal>
+      <p class="acts__k">What friends can do</p>
+      <ul class="acts__list" data-reveal="children">
+        {acts.map((a) => <li>{a}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>

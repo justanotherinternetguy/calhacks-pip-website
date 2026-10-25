@@ -1,0 +1,56 @@
+---
+const goals = [
+  { k: 'passive', c: 'var(--sky)', title: 'Nothing to press', body: 'Other safety apps need the person in danger to act: press a button, set a timer, share a location. pip watches how you move, so it works when you can’t.' },
+  { k: 'first', c: 'var(--lilac)', title: 'You hear first', body: 'Before anyone is told, your phone asks “You okay?”. If the cause clears, for example you get up and walk, the check-in withdraws and nobody ever knows.' },
+  { k: 'sealed', c: 'var(--butter)', title: 'Sealed until it matters', body: 'Your location uploads as ciphertext. Nobody can read it alone: not one friend, and not the company. It unlocks only when a check-in goes unanswered.' },
+  { k: 'friends', c: 'var(--mint)', title: 'Friends decide', body: 'Your friends choose what to do: ring you, call, come and find you. pip never calls the police or anyone else by itself.' },
+];
+---
+<section class="band" id="why">
+  <div class="wrap">
+    <div class="band__head" data-reveal>
+      <p class="eyebrow" style="--eyebrow: var(--coral)">Why pip</p>
+      <h2 data-words>Most safety apps wait for you to ask. pip notices when you can’t.</h2>
+      <p class="lead">A hard fall, unsteady walking, a snatched phone. These are the moments you can’t reach for a button, so pip doesn’t wait for one.</p>
+    </div>
+    <div class="goals" data-reveal="children">
+      {goals.map((g) => (
+        <article class="card goal" style={`--c: ${g.c}`}>
+          <div class={`goal__art goal__art--${g.k}`} aria-hidden="true">
+            {g.k === 'passive' && (
+              <svg viewBox="0 0 120 90">
+                <path class="a-moon" d="M86 14 a16 16 0 1 0 14 24 a13 13 0 1 1 -14 -24 z" />
+                <circle class="a-star" cx="24" cy="18" r="2.5" /><circle class="a-star a-star--2" cx="42" cy="10" r="2" /><circle class="a-star a-star--3" cx="60" cy="24" r="2.2" />
+                <rect class="a-phone" x="40" y="34" width="36" height="52" rx="8" />
+                <circle class="a-pulse" cx="58" cy="60" r="7" /><circle class="a-you" cx="58" cy="60" r="6" />
+              </svg>
+            )}
+            {g.k === 'first' && (
+              <svg viewBox="0 0 120 90">
+                <path class="a-bubble" d="M18 16 h84 a10 10 0 0 1 10 10 v28 a10 10 0 0 1 -10 10 h-56 l-14 14 v-14 h-14 a10 10 0 0 1 -10 -10 v-28 a10 10 0 0 1 10 -10 z" />
+                <text class="a-q" x="60" y="46">You okay?</text>
+              </svg>
+            )}
+            {g.k === 'sealed' && (
+              <svg viewBox="0 0 120 90">
+                <rect class="a-lock" x="38" y="38" width="44" height="38" rx="9" />
+                <path class="a-shackle" d="M48 38 v-8 a12 12 0 0 1 24 0 v8" />
+                <circle cx="60" cy="54" r="4" class="a-keyhole" /><path d="M60 57 v8" class="a-keyhole-s" />
+                <text class="a-hex" x="8" y="20">9f3a</text><text class="a-hex a-hex--2" x="84" y="16">c41e</text><text class="a-hex a-hex--3" x="92" y="86">77b0</text>
+              </svg>
+            )}
+            {g.k === 'friends' && (
+              <svg viewBox="0 0 120 90">
+                <path class="a-link" d="M60 46 L26 28 M60 46 L96 26 M60 46 L60 80" />
+                <circle class="a-f" cx="26" cy="28" r="9" /><circle class="a-f a-f--2" cx="96" cy="26" r="9" /><circle class="a-f a-f--3" cx="60" cy="80" r="9" />
+                <circle class="a-me" cx="60" cy="46" r="11" />
+              </svg>
+            )}
+          </div>
+          <h3>{g.title}</h3>
+          <p>{g.body}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

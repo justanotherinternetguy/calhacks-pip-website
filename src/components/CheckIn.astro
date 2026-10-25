@@ -1,0 +1,56 @@
+---
+---
+<section class="band" id="checkin">
+  <div class="wrap ci">
+    <div class="ci__text" data-reveal>
+      <p class="eyebrow" style="--eyebrow: var(--lilac)">Try a check-in</p>
+      <h2 data-words>Three words, typed like you</h2>
+      <p class="lead">A thief can’t answer for you, and a friend can’t answer while you’re slumped in a corner. First the phone checks it’s you. Then it gives you three random words and listens to <em>how</em> you type them: the gaps between keys, how steady they are, how often you go back.</p>
+      <ul class="ci__how">
+        <li><b>The first time</b> is your practice round, like onboarding. It sets your rhythm.</li>
+        <li><b>Then try again</b>, slowly, or with one thumb. See what your friends would hear.</li>
+      </ul>
+      <p class="fine">Everything runs in this page. Nothing you type is sent anywhere.</p>
+    </div>
+
+    <div class="ci__phone" data-checkin data-state="locked" data-reveal>
+      <div class="ci__screen">
+        <p class="check__k">pip · check-in</p>
+        <p class="ci__q">You okay?</p>
+        <p class="ci__why" data-ci-why>A possible fall, then no movement.</p>
+
+        <div class="ci__step ci__step--lock">
+          <button type="button" class="finger" data-ci-finger aria-label="Prove it’s you: press and hold">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <circle class="finger__ring" cx="32" cy="32" r="29" pathLength="100" data-ci-finger-ring />
+              <path class="finger__lines" d="M20 30 a12 12 0 0 1 24 0 v4 a16 16 0 0 1 -4 10 M26 30 a6 6 0 0 1 12 0 v4 a12 12 0 0 1 -6 10 M32 31 v4 a8 8 0 0 1 -4 7 M16 36 a17 17 0 0 0 2 8 M18 22 a17 17 0 0 1 28 0" />
+            </svg>
+          </button>
+          <p class="ci__hint">Hold to prove it’s you</p>
+        </div>
+
+        <div class="ci__step ci__step--type">
+          <p class="ci__hint">Type these words</p>
+          <p class="check__words" data-ci-words></p>
+          <label class="sr" for="ci-input">Type the three words</label>
+          <input id="ci-input" class="ci__input" data-ci-input autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="type here…" />
+          <div class="ci__rhythm" aria-hidden="true">
+            <i class="ci__band" data-ci-band></i>
+            <div class="ci__bars" data-ci-bars></div>
+          </div>
+          <button type="button" class="btn btn--main ci__ok" data-ci-ok>I’m OK</button>
+        </div>
+
+        <div class="ci__step ci__step--done">
+          <div class="ci__res" data-ci-res>
+            <span class="ci__res-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12.5 L9.5 17 L19 7.5"/></svg></span>
+            <p class="ci__res-t" data-ci-res-t>Check-in dismissed</p>
+            <p class="ci__res-s" data-ci-res-s></p>
+            <dl class="ci__stats" data-ci-stats></dl>
+          </div>
+          <button type="button" class="btn ci__again" data-ci-again>Another check-in</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
